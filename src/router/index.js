@@ -6,16 +6,17 @@ import SpiderConfig from '@/views/SpiderConfig'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
     {
       path: '/config',
       name: 'spider-config',
       component: SpiderConfig
+    },
+    {
+      path: '/',
+      name: 'home',
+      component: Home
     }
   ]
 })

@@ -9,7 +9,7 @@
         v-model="config"/>
     </el-col>
     <el-row>
-      <el-col :span="11">
+      <el-col span="11">
         <el-button class="el-alert" @click="submitTask" style="margin-top: 50px">
           提交
         </el-button>
@@ -75,7 +75,7 @@ export default {
   data () {
     return {
       config: '',
-      task_id: this.$store.state.spider.form.task_id,
+      task_id: '',
       data: [],
       message: ''
     }
