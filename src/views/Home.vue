@@ -1,14 +1,6 @@
 <template>
   <div>
-    <el-container>
-      <el-header>
-        <h1 style="color: white">TSpider</h1>
-      </el-header>
-      <el-main>
-        <spider/>
-      </el-main>
-      <el-footer>TSpider ©2018 Created by Xuantang Cun</el-footer>
-    </el-container>
+    <spider/>
   </div>
 </template>
 <script>

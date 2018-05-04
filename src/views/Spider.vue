@@ -1,15 +1,19 @@
 <template>
   <el-row>
-    <el-col :span="24">
-      <h4>输入爬虫配置:</h4>
-      <el-input
-        type="textarea"
-        :rows="10"
-        placeholder="请输入内容"
-        v-model="config"/>
-    </el-col>
     <el-row>
-      <el-col span="11">
+      <el-col :span="24">
+        <h4>输入爬虫配置:</h4>
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 4}"
+          placeholder="请输入内容"
+          v-model="config"
+          clearable/>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="11">
         <el-button class="el-alert" @click="submitTask" style="margin-top: 50px">
           提交
         </el-button>
@@ -20,55 +24,71 @@
         </el-button>
       </el-col>
     </el-row>
-
-    <el-col :span="24">
-      <h4>输入项目ID:</h4>
-      <el-input type="text" v-model="task_id"
-                placeholder="请输入内容"/>
-    </el-col>
-    <el-col :span="24">
-      <el-button class="el-alert" @click="queryTask" style="margin-top: 50px">
-        查询
-      </el-button>
-    </el-col>
-    <el-col :span="24">
-      <el-table
-        :data=data
-        style="width: 100%; text-align: left"
-        max-height="500">
-        <el-table-column
-          prop="url"
-          label="url"
-          width="900">
-        </el-table-column>
-        <el-table-column
-          prop="state"
-          label="state"
-          width="220">
-        </el-table-column>
-        <el-table-column
-          prop="code"
-          label="code"
-          width="320">
-        </el-table-column>
-      </el-table>
-    </el-col>
-    <el-col :span="24">
-      <el-button class="el-alert" @click="downloadTask" style="margin-top: 50px">
-        下载
-      </el-button>
-    </el-col>
-    <el-col :span="24">
-      <my-dialog>
-        <p slot="content">{{ message }}</p>
-      </my-dialog>
-    </el-col>
+    <el-row>
+      <el-col :span="24">
+        <h4>输入项目ID:</h4>
+        <el-input type="text" v-model="task_id"
+                  placeholder="请输入内容"/>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <el-button class="el-alert" @click="queryTask" style="margin-top: 50px">
+          查询
+        </el-button>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24" style="margin-top: 50px">
+        <el-table
+          :data=data
+          border
+          highlight-current-row
+          style="width: 100%"
+          :default-sort = "{prop: 'url', order: 'descending'}"
+          max-height="500">
+          <el-table-column
+            type="index"
+            width="50">
+          </el-table-column>
+          <el-table-column
+            prop="url"
+            label="url"
+            width="800">
+          </el-table-column>
+          <el-table-column
+            prop="state"
+            label="state"
+            width="220">
+          </el-table-column>
+          <el-table-column
+            prop="code"
+            label="code"
+            width="320">
+          </el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <el-button class="el-alert" @click="downloadTask" style="margin-top: 50px">
+          下载
+        </el-button>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <my-dialog>
+          <p slot="content">{{ message }}</p>
+        </my-dialog>
+      </el-col>
+    </el-row>
   </el-row>
 </template>
 
 <script>
 import { submitTask, queryTask } from '../api/api'
-import dialog from '@/views/Dialog'
+import myDialog from '@/views/Dialog'
 export default {
   name: 'spider',
 
@@ -81,13 +101,13 @@ export default {
     }
   },
 
-  components: { 'my-dialog': dialog },
+  created: function () {
+    this.config = JSON.stringify(this.$store.state.spider.form)
+    this.task_id = (this.$store.state.spider.form).task_id
+  },
 
-  // created: {
-  //   start: function () {
-  //     this.config = JSON.stringify(this.$store.state.spider.form)
-  //   }
-  // },
+  components: { 'my-dialog': myDialog },
+
   methods: {
     submitTask: function () {
       let params = {data: this.config}

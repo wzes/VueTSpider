@@ -1,8 +1,5 @@
 <template>
   <div>
-    <el-header>
-      <h1>TSpider Config</h1>
-    </el-header>
     <el-main>
       <el-form label-width="80px" :model="form">
         <el-form-item label="名称">
@@ -28,19 +25,20 @@
             </el-col>
           </el-row>
           <div v-for="(rule, index) in form.extractRules" :key="rule.name">
-            <el-row>
-              <el-col :span="20">
-                <el-form class="rule" label-width="80px" :model="rule">
+            <el-form class="rule" label-width="80px" :model="rule">
+              <el-row>
+                <el-col :span="20">
                   <el-form-item label="规则名称">
-                    <el-input v-model="rule.name"></el-input>
+                    <el-input v-model="rule.name"/>
                   </el-form-item>
-                </el-form>
-              </el-col>
-              <el-col :span="2">
-                <i class="el-icon-error" @click="removeRule(index)" style="margin-top: 13px; margin-left: 15px"></i>
-              </el-col>
-
-            </el-row>
+                </el-col>
+                <el-col :span="2">
+                  <el-button type="text" @click="removeRule(index)" style="margin-left: 15px">
+                    <i class="el-icon-delete"></i>
+                  </el-button>
+                </el-col>
+              </el-row>
+            </el-form>
             <el-row type="flex" justify="center">
               <el-col :span="6">
                 <el-button class="add" @click="addItem(index)">添加解析规则</el-button>
@@ -49,12 +47,12 @@
             <div v-for="(item, itemIndex) in rule.extractItems" :key="item.name">
               <el-form class="item" label-width="80px" :model="item">
                 <el-row>
-                  <el-col :span="12">
+                  <el-col :span="10">
                     <el-form-item label="item名称">
-                      <el-input v-model="item.name"></el-input>
+                      <el-input v-model="item.name"/>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="10" :offset="2">
                     <el-form-item label="item类型">
                       <el-select v-model="item.extractType" placeholder="请选择">
                         <el-option
@@ -70,11 +68,13 @@
                 <el-row typeof="flex" justify="center">
                   <el-col :span="15">
                     <el-form-item label="Selector">
-                      <el-input v-model="item.selector"></el-input>
+                      <el-input v-model="item.selector"/>
                     </el-form-item>
                   </el-col>
                   <el-col :span="2">
-                    <i class="el-icon-error" @click="removeItem(index, itemIndex)" style="margin-top: 13px; margin-left: 15px"></i>
+                    <el-button type="text" @click="removeItem(index, itemIndex)" style="margin-left: 15px">
+                      <i class="el-icon-delete"></i>
+                    </el-button>
                   </el-col>
                 </el-row>
               </el-form>
@@ -98,7 +98,7 @@
 
 <script>
 import { submitTask } from '../api/api'
-import dialog from '@/views/Dialog'
+import myDialog from '@/views/Dialog'
 export default {
   name: 'spider-config',
   data () {
@@ -147,7 +147,7 @@ export default {
       }]
     }
   },
-  components: { 'my-dialog': dialog },
+  components: { 'my-dialog': myDialog },
 
   methods: {
     submitTask: function () {
@@ -160,8 +160,8 @@ export default {
       } else {
         submitTask(params).then(data => {
           console.log(data)
-          this.$store.state.spider.task_id = data.content
-          this.$store.state.spider.form = this.from
+          this.$store.state.spider.form = this.form
+          this.$store.state.spider.form.task_id = data.content
           this.$router.push('/')
         }).catch(error => {
           console.log(error)

@@ -7,6 +7,7 @@ import router from './router'
 import element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.css'
+
 // import * as uiv from 'uiv'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 // import MuseUI from 'muse-ui'

@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'dialog',
+  name: 'my-dialog',
   methods: {
     handleClose (done) {
       this.$confirm('Are you sure to close this dialog?')
